@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ubuntu-test-case
+spec:
+  selector:
+    matchLabels:
+      app: ubuntu
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ubuntu
+    spec:
+      containers:
+      - name: ubuntu
+        image: ubuntu
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            memory: 1500Mi
+          requests:
+            cpu: 400m
+            memory: 1500Mi
+        command: ['sh', '-c', 'while true; do echo "test case"; sleep 2; done;']

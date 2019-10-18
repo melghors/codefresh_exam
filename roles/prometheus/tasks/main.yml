@@ -1,0 +1,26 @@
+---
+- name: Copy manifests
+  copy:
+    src: "{{ item }}"
+    dest: /tmp/prometheus/
+    mode: 0777
+  with_fileglob:
+    - files/*
+  tags: ['prometheus']
+
+- name: Deploy prometheus
+  k8s:
+    state: present
+    src: "{{ item }}"
+  with_items:
+    - /tmp/prometheus/namespace.yml
+    - /tmp/prometheus/kube-state-metrics.yml
+    - /tmp/prometheus/node-exporter.yml
+    - /tmp/prometheus/prometheus-service-account.yml
+    - /tmp/prometheus/prometheus-cluster-role.yml
+    - /tmp/prometheus/prometheus-role-binding.yml
+    - /tmp/prometheus/prometheus-configmap.yml
+    - /tmp/prometheus/prometheus-deployment.yml
+    - /tmp/prometheus/prometheus-service.yml
+    - /tmp/prometheus/ubuntu-test.yml
+  tags: ['prometheus']
