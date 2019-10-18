@@ -1,0 +1,5 @@
+- name: Create k8s-master node
+  hosts: all
+  become: yes
+  roles:
+    - role: k8s-node
